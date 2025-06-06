@@ -1,7 +1,5 @@
 import { NextResponse } from "next/server";
-// import * as ort from "onnxruntime-node";
-import { InferenceSession, Tensor } from "onnxruntime-web"; // Changed to web version
-
+import * as ort from "onnxruntime-node";
 import path from "path";
 import fs from "fs/promises";
 
