@@ -39,3 +39,19 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Model lines
+
+# Ignore local training artifacts
+ml_models/
+temp_*.onnx
+*.onnx
+
+# Track the secure storage folder
+!.model-storage/
+!.model-storage/campaign_model.onnx
+
+# Standard ignores (add these if missing)
+node_modules/
+.next/
+.env*.local
