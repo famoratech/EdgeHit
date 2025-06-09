@@ -1,7 +1,5 @@
 import { NextResponse } from "next/server";
-import * as ort from "onnxruntime-node";
-import path from "path";
-import fs from "fs/promises";
+import { InferenceSession, Tensor } from "onnxruntime-web";
 
 interface PredictionRequest {
   budget: number;
@@ -16,24 +14,40 @@ interface PredictionResponse {
   modelVersion: string;
 }
 
-// 🔧 Path to model relative to project root
-const MODEL_PATH = path.join(
-  process.cwd(),
-  "src/app/api/predicts/campaign_model.onnx"
-);
+// GitHub raw content URL with cache busting
+const GITHUB_MODEL_URL = `https://github.com/famoratech/EdgeHit/blob/main/src/.model-storage/campaign_model.onnx?ts=${Date.now()}`;
 
-let ortSession: ort.InferenceSession | null = null;
+let ortSession: InferenceSession | null = null;
 
 async function initializeModel() {
   try {
-    await fs.access(MODEL_PATH);
-    const session = await ort.InferenceSession.create(MODEL_PATH);
-    console.log("✅ Model loaded from:", MODEL_PATH);
-    return session;
+    console.log(`Fetching model from GitHub: ${GITHUB_MODEL_URL}`);
+
+    const response = await fetch(GITHUB_MODEL_URL, {
+      headers: process.env.GITHUB_TOKEN
+        ? {
+            Authorization: `token ${process.env.GITHUB_TOKEN}`,
+          }
+        : {},
+    });
+
+    if (!response.ok) {
+      throw new Error(`GitHub responded with ${response.status}`);
+    }
+
+    const modelBuffer = await response.arrayBuffer();
+    console.log(`Model loaded (${modelBuffer.byteLength} bytes)`);
+
+    return await InferenceSession.create(modelBuffer, {
+      executionProviders: ["wasm"],
+      graphOptimizationLevel: "all",
+    });
   } catch (error) {
-    console.error("❌ Model loading failed:", error);
+    console.error("Model initialization failed:", error);
     throw new Error(
-      `Model loading failed. Ensure model exists at: ${MODEL_PATH}`
+      `Failed to load model from GitHub. ${
+        error instanceof Error ? error.message : String(error)
+      }`
     );
   }
 }
@@ -45,15 +59,19 @@ export async function POST(request: Request) {
     const { budget, impressions, clicks, platform } =
       (await request.json()) as PredictionRequest;
 
-    if (isNaN(budget) || isNaN(impressions) || isNaN(clicks) || !platform) {
-      return NextResponse.json({ error: "Invalid input" }, { status: 400 });
+    // Validate input
+    if ([budget, impressions, clicks].some(isNaN) || !platform) {
+      throw new Error("Invalid input parameters");
     }
 
+    // Initialize model (cached)
     if (!ortSession) {
       ortSession = await initializeModel();
+      console.log("ONNX session initialized");
     }
 
-    const inputTensor = new ort.Tensor(
+    // Prepare input tensor (matches training preprocessing)
+    const inputTensor = new Tensor(
       "float32",
       new Float32Array([
         Math.log1p(budget),
@@ -68,34 +86,43 @@ export async function POST(request: Request) {
       [1, 4]
     );
 
-    const feeds: Record<string, ort.Tensor> = {
-      float_input: inputTensor,
-    };
+    // Run prediction
+    const results = await ortSession.run({
+      [ortSession.inputNames[0]]: inputTensor,
+    });
 
-    const results = await ortSession.run(feeds);
-
+    const prediction = results[ortSession.outputNames[0]].data[0];
     const latency = Math.round(performance.now() - startTime);
 
     return NextResponse.json({
-      prediction: Number(results[ortSession.outputNames[0]].data[0]),
+      prediction: Number(prediction),
       latency,
       modelVersion: "1.0.0",
     } as PredictionResponse);
-  } catch (error: any) {
+  } catch (error) {
+    console.error("Prediction error:", error);
+
     return NextResponse.json(
       {
         error: "Prediction failed",
         details:
           process.env.NODE_ENV === "development"
-            ? error.message
+            ? error instanceof Error
+              ? error.message
+              : String(error)
             : "Internal server error",
-        modelPath: MODEL_PATH,
+        troubleshooting: [
+          `1. Verify model exists at: ${GITHUB_MODEL_URL}`,
+          "2. Check repository visibility (public/private)",
+          "3. For private repos, set GITHUB_TOKEN environment variable",
+        ],
       },
       { status: 500 }
     );
   }
 }
+
 export const config = {
-  runtime: "edge", // Changed to edge runtime
+  runtime: "edge",
   maxDuration: 30,
 };
