@@ -1,0 +1,10 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://edgehit.ca # or your production URL
+
+# Sitemaps
+Sitemap: https://edgehit.ca # or your production URL/sitemap.xml
+Sitemap: https://edgehit.ca # or your production URL/sitemap-0.xml

@@ -10,7 +10,7 @@ const services = [
     iconImg: <FileText size={40} />,
     img: (
       <Image
-        src="/contentR.png"
+        src="/images/contentR.png"
         alt="Digital Marketing Services"
         width={900}
         height={500}
@@ -35,7 +35,7 @@ const services = [
     iconImg: <Search size={40} />,
     img: (
       <Image
-        src="/SEOImgThree.png"
+        src="/images/SEOImgThree.png"
         alt="Digital Marketing Services"
         width={900}
         height={500}
@@ -60,7 +60,7 @@ const services = [
     iconImg: <Users size={40} />,
     img: (
       <Image
-        src="/socialCamp.webp"
+        src="/images/socialCamp.webp"
         alt="Digital Marketing Services"
         width={900}
         height={500}
@@ -85,7 +85,7 @@ const services = [
     iconImg: <TrendingUp size={40} />,
     img: (
       <Image
-        src="/ADSOptimizeImgOne.png"
+        src="/images/ADSOptimizeImgOne.png"
         alt="Digital Marketing Services"
         width={900}
         height={500}
@@ -111,7 +111,7 @@ const services = [
     iconImg: <BarChart3 size={40} />,
     img: (
       <Image
-        src="/performance.webp"
+        src="/images/performance.webp"
         alt="Digital Marketing Services"
         width={900}
         height={500}

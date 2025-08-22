@@ -1,12 +1,8 @@
 "use client";
 import React from "react";
 import { motion } from "framer-motion";
-// import { BarChart3, Search, FileText, Users, TrendingUp } from "lucide-react";
 import services from "@/app/servicesdata/servicesData";
-import Image from "next/image";
 import Link from "next/link";
-import Script from "next/script";
-import CalendlyWidget from "../calendar/calendar";
 
 const OurService = () => {
   return (
@@ -48,26 +44,10 @@ const OurService = () => {
             </Link>
           ))}
         </motion.div>
-
-        {/* Illustration Row */}
-        {/* <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="w-full mt-10"
-        >
-          <Image
-            src="/illustration.png"
-            alt="Digital Marketing Services"
-            width={800}
-            height={500}
-            className="mx-auto rounded-lg shadow-md"
-          />
-        </motion.div> */}
       </div>
       <div>
-        <CalendlyWidget />
+        {/* <CalendlyWidget /> */}
+        {/* <GoogleCalendarEmbed /> */}
       </div>
     </section>
   );
