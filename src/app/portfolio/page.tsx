@@ -2,7 +2,7 @@ import { supabase } from "@/lib/supabase";
 import FilterBar from "@/components/portfolio/FilterBar";
 import ProjectGrid from "@/components/portfolio/ProjectGrid"; // New client component
 
-export const revalidate = 2592000; // 30 days in seconds
+export const revalidate = 604800; // 7 days in seconds
 
 export const metadata = {
   title: "Our Portfolio | EdgeHit Digital Marketing",
