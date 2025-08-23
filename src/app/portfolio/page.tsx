@@ -1,4 +1,4 @@
-import { supabase } from "@/lib/supabase";
+import { createServerSupabaseClient } from "@/lib/supabase/server";
 import FilterBar from "@/components/portfolio/FilterBar";
 import ProjectGrid from "@/components/portfolio/ProjectGrid"; // New client component
 
@@ -51,7 +51,7 @@ export default async function PortfolioPage({
 }) {
   const { category } = await searchParams;
   const selectedCategory = category || "All";
-
+  const supabase = await createServerSupabaseClient();
   let query = supabase
     .from("projects")
     .select("*")
