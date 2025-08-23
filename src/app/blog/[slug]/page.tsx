@@ -1,6 +1,7 @@
 // app/blog/[slug]/page.tsx
 import { Metadata } from "next";
-import { supabase } from "@/lib/supabase";
+// import { supabase } from "@/lib/supabase";
+import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import ReactMarkdown from "react-markdown";
@@ -13,7 +14,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-
+  const supabase = await createServerSupabaseClient();
   const { data: post } = await supabase
     .from("blog_posts")
     .select("title, image, content")
@@ -48,7 +49,7 @@ export default async function BlogPostPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-
+  const supabase = await createServerSupabaseClient();
   const { data: post, error } = await supabase
     .from("blog_posts")
     .select("*")
