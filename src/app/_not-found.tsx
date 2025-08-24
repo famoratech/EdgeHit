@@ -1,7 +1,5 @@
 // app/not-found.tsx
 
-"use client";
-
 import Link from "next/link";
 
 export const dynamic = "force-dynamic"; // optional, skips prerender
