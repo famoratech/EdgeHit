@@ -6,7 +6,7 @@ import { useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import { useSupabaseUser } from "@/hooks/useSupabaseUser";
-import { supabase } from "@/lib/supabase";
+// import { supabase } from "@/lib/supabase";
 import { v4 as uuidv4 } from "uuid";
 import { useDropzone } from "react-dropzone";
 import { Button } from "@/components/ui/button";
@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 
 import { Label } from "@/components/ui/label";
 import Checkbox from "@mui/material/Checkbox";
+import { supabase } from "@/lib/supabase/client";
 // import { Checkbox } from "@/components/ui/checkbox";
 
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
