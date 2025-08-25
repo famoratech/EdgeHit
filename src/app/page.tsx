@@ -9,7 +9,9 @@ export default function Home() {
       <Hero />
       <MainService />
       <OurService />
-      <GoogleCalendarEmbed />
+      <div id="appointment">
+        <GoogleCalendarEmbed />
+      </div>
     </div>
   );
 }

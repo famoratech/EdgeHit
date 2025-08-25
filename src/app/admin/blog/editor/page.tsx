@@ -13,7 +13,8 @@ import { Input } from "@/components/ui/input";
 
 import { Label } from "@/components/ui/label";
 import Checkbox from "@mui/material/Checkbox";
-import { supabase } from "@/lib/supabase/client";
+// import { supabase } from "@/lib/supabase/client";
+import { supabase } from "@/lib/supabase";
 
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 
