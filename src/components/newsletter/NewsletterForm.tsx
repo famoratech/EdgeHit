@@ -76,12 +76,14 @@ export function NewsletterForm({
               >
                 Name (Optional)
               </label>
+              {/* Added text-gray-900 to ensure text is visible */}
               <Input
                 id="name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Your name"
-                className="focus:ring-2 focus:ring-[#FFA500]"
+                className="focus:ring-2 focus:ring-[#FFA500] text-gray-900" // ← Added text-gray-900
+                style={{ color: "black" }} // ← Emergency fallback
               />
             </div>
 
@@ -92,6 +94,7 @@ export function NewsletterForm({
               >
                 Email *
               </label>
+              {/* Added text-gray-900 to ensure text is visible */}
               <Input
                 id="email"
                 type="email"
@@ -99,14 +102,15 @@ export function NewsletterForm({
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="your@email.com"
-                className="focus:ring-2 focus:ring-[#FFA500]"
+                className="focus:ring-2 focus:ring-[#FFA500] text-gray-900" // ← Added text-gray-900
+                style={{ color: "black" }} // ← Emergency fallback
               />
             </div>
 
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-[#FFA500] hover:bg-[#FFB733] text-white font-bold  py-2 px-4 rounded-md transition-colors"
+              className="w-full bg-[#FFA500] hover:bg-[#FFB733] text-white font-bold py-2 px-4 rounded-md transition-colors"
             >
               {isSubmitting ? (
                 <span className="flex items-center justify-center font-bold">
@@ -125,7 +129,7 @@ export function NewsletterForm({
                       strokeWidth="4"
                     ></circle>
                     <path
-                      className="opacity-75 "
+                      className="opacity-75"
                       fill="currentColor"
                       d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                     ></path>

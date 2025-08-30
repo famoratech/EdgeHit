@@ -25,13 +25,17 @@ function getStaticPagePaths(dir, baseUrl = "") {
     const relativePath = path.join(baseUrl, entry.name);
 
     if (entry.isDirectory()) {
-      // Skip admin/private directories
-      if (["admin", "dashboard"].includes(entry.name.toLowerCase())) return;
+      // FIX: Skip ALL private directories (admin, dashboard, api, auth)
+      const excludedDirs = ["admin", "dashboard", "api", "auth"];
+      if (excludedDirs.includes(entry.name.toLowerCase())) return;
 
       // Recurse into subdirectories
       paths = paths.concat(getStaticPagePaths(fullPath, relativePath));
     } else if (entry.isFile()) {
-      // Only include JS/TS/TSX/JSX files
+      // FIX: CRITICAL - Skip any file named 'route.js' (API routes)
+      if (entry.name.startsWith("route.")) return;
+
+      // Only include JS/TS/TSX/JSX files for pages
       if (/\.(tsx|ts|jsx|js)$/.test(entry.name)) {
         let route = relativePath
           .replace(/\\/g, "/") // Normalize Windows backslashes
@@ -84,8 +88,9 @@ const appDir = path.join(process.cwd(), "src", "app");
 // Export Next-Sitemap configuration
 // ------------------------------
 module.exports = {
-  // Base URL for your site
-  siteUrl: process.env.NEXT_PUBLIC_BASE_URL || "https://edgehit.ca",
+  // FIX: Hardcode your canonical URL here to force consistency.
+  // CHOOSE ONE: https://www.edgehit.ca OR https://edgehit.ca
+  siteUrl: "https://www.edgehit.ca", // <-- CHANGE THIS TO YOUR PREFERRED CANONICAL URL
 
   // Generate a robots.txt file automatically
   generateRobotsTxt: true,
@@ -97,32 +102,26 @@ module.exports = {
   changefreq: "monthly",
   priority: 0.8,
 
-  // Exclude private/admin routes from sitemap
-  exclude: ["/admin/**", "/dashboard/**"],
+  // FIX: Expanded exclude list to block API and Auth routes from being scanned/processed at all.
+  exclude: [
+    "/admin/**",
+    "/dashboard/**",
+    "/api/**",
+    "/auth/**",
+    "/verify", // Added based on your sitemap output
+  ],
 
-  // Add additional paths dynamically
-  additionalPaths: async () => {
-    const staticPages = getStaticPagePaths(appDir); // Static pages
-    const dynamicPages = await fetchDynamicPaths(); // Blog/portfolio
-
-    const allPaths = [...staticPages, ...dynamicPages];
-
-    // Format for next-sitemap
-    return allPaths.map((p) => ({
-      loc: p,
-      priority: 0.85,
-      changefreq: "weekly",
-      lastmod: new Date().toISOString(),
-    }));
-  },
+  // FIX: REMOVED the entire `additionalPaths` function.
+  // It is causing more problems than it solves by creating relative paths.
+  // Let next-sitemap automatically find your pages based on the app/ directory.
+  // It will automatically find your pages and use the correct siteUrl.
 
   // Optional: customize robots.txt policies
   robotsTxtOptions: {
     policies: [{ userAgent: "*", allow: "/" }],
-    additionalSitemaps: [
-      `${
-        process.env.NEXT_PUBLIC_BASE_URL || "https://edgehit.ca"
-      }/sitemap-0.xml`,
-    ],
+    // FIX: This line is redundant as next-sitemap generates this automatically. You can remove it.
+    // additionalSitemaps: [
+    //   `https://www.edgehit.ca/sitemap.xml`,
+    // ],
   },
 };
