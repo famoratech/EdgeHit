@@ -3,8 +3,8 @@ import "./globals.css";
 import Navbar from "@/components/navbar/navbar";
 import Footer from "@/components/footer/footer";
 import { Toaster } from "sonner";
-import GoogleAnalytics from "@/components/googleanalytics/GoogleAnalytics";
-import GoogleAds from "@/components/googleads/GoogleAds";
+import GoogleAnalytics from "@/components/googleanalytics/googleAnalytics";
+import GoogleAds from "@/components/googleads/googleAds";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -71,12 +71,12 @@ export default function RootLayout({
       <head>
         {/* Any additional metadata or styles can go here */}
         <GoogleAnalytics />
-        <GoogleAds />
       </head>
 
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <GoogleAds />
         <Navbar />
         {children}
         <Toaster position="top-center" richColors /> {/* 👈 Add this */}
