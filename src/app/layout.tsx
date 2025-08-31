@@ -4,7 +4,7 @@ import Navbar from "@/components/navbar/navbar";
 import Footer from "@/components/footer/footer";
 import { Toaster } from "sonner";
 import GoogleAnalytics from "@/components/googleanalytics/googleAnalytics";
-import GoogleAds from "@/components/googleads/googleAds";
+import GoogleAds from "@/components/googleAds/googleAds";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
