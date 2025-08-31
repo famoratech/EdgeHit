@@ -49,9 +49,9 @@ const FacebookIcon = dynamic(() => import("@mui/icons-material/Facebook"), {
 const LinkedInIcon = dynamic(() => import("@mui/icons-material/LinkedIn"), {
   ssr: false,
 });
-const YouTubeIcon = dynamic(() => import("@mui/icons-material/YouTube"), {
-  ssr: false,
-});
+// const YouTubeIcon = dynamic(() => import("@mui/icons-material/YouTube"), {
+//   ssr: false,
+// });
 const InstagramIcon = dynamic(() => import("@mui/icons-material/Instagram"), {
   ssr: false,
 });

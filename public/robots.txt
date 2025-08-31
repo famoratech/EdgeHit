@@ -3,8 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://edgehit.ca # or your production URL
+Host: https://www.edgehit.ca
 
 # Sitemaps
-Sitemap: https://edgehit.ca # or your production URL/sitemap.xml
-Sitemap: https://edgehit.ca # or your production URL/sitemap-0.xml
+Sitemap: https://www.edgehit.ca/sitemap.xml
