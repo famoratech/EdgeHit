@@ -20,6 +20,7 @@ const excludedRoutes = [
   "/api",
   "/api/**",
   "/verify",
+  "/predict",
   "/icon.png", // Also excluding the image file
 ];
 
@@ -61,6 +62,16 @@ module.exports = {
       priority: config.priority,
       lastmod: new Date().toISOString(),
     };
+  },
+
+  // NEW: Manually ensure the /portfolio page is included
+  additionalPaths: async (config) => {
+    // Manually add the portfolio page
+    const portfolioPath = await config.transform(config, "/portfolio");
+
+    // Return an array of manually added paths
+    // You can add other important pages here if needed in the future
+    return [portfolioPath].filter(Boolean); // filter(Boolean) removes any null entries
   },
 
   // Optional: robots.txt configuration
