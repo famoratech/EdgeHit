@@ -1,9 +1,0 @@
-# *
-User-agent: *
-Allow: /
-
-# Host
-Host: https://www.edgehit.ca
-
-# Sitemaps
-Sitemap: https://www.edgehit.ca/sitemap.xml

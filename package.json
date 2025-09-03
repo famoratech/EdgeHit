@@ -6,8 +6,7 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "postbuild": "next-sitemap"
+    "lint": "next lint"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -45,7 +44,6 @@
     "localforage": "^1.10.0",
     "lucide-react": "^0.503.0",
     "next": "^15.3.3",
-    "next-sitemap": "^4.2.3",
     "nodemailer": "^7.0.5",
     "onnxruntime-node": "^1.22.0-rev",
     "onnxruntime-web": "^1.22.0",
